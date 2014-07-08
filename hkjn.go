@@ -1,6 +1,8 @@
-// Package hkjnweb is the personal website http://www.hkjn.me / http://blog.hkjn.me.
+// Package hkjnweb is the personal websites http://www.hkjn.me /
+// http://blog.hkjn.me.
 //
-// See https://github.com/hkjn/autosite for the framework that enables this site.
+// See https://github.com/hkjn/autosite for the framework that enables
+// this site.
 package hkjnweb
 
 import (
@@ -12,8 +14,10 @@ import (
 var baseTemplates = []string{
 	"tmpl/base.tmpl",
 	"tmpl/base_header.tmpl",
+	"tmpl/head.tmpl",
 	"tmpl/style.tmpl",
 	"tmpl/fonts.tmpl",
+	"tmpl/js.tmpl",
 }
 
 var web = autosite.New(

@@ -2,8 +2,10 @@
 {{define "main"}}
 <article>
 <header>
-<h1 class="article_title"><a href="{{.URI}}">{{template "page_title" .}}</a></h1>
+<h1 class="article_title"><a href="{{.URI}}">
+  {{template "page_title" .}}
+</a></h1>
 </header>
-{{template "page_content" .}}
+  {{template "page_content" .}}
 </article>
 {{end}}
