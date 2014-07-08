@@ -1,0 +1,72 @@
+{{define "style"}}
+body {
+  background-color: white;
+  font-family: 'PT Serif', Georgia, Times, 'Times New Roman', serif;
+  width: 50%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: justify;
+}
+
+nav#mainnav ul {
+  list-style: none;
+}
+
+nav#mainnav li {
+  display: inline;
+  padding-right: 2em;
+  font-size: 125%;
+}
+
+header {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+header#base_header {
+  width: 65%;
+  border-bottom: medium black solid;
+}
+
+header a, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  text-decoration: none;
+}
+
+h1.article_title {
+  font-size: 2em;
+  margin-bottom: 0.25em;
+}
+
+h1#header_link {
+  font-size: 3.5em;
+  font-weight: 150;
+  margin-bottom: 0;
+}
+
+em#post_date, em#post_date a {
+  color: #777;
+}
+
+em#post_date a:hover {
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: lighter;
+}
+
+a, a:visited {
+  color: black;
+}
+
+header a:hover, a:hover {
+  color: #777;
+}
+
+li.quote {
+  font-size: 0.8em;
+}
+
+{{end}}

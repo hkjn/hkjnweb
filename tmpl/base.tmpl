@@ -1,0 +1,24 @@
+{{/* base.tmpl */}}
+{{define "base"}}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{{.Title}}</title>
+<link rel="shortcut icon" href="/static/favicon.ico" type="image/x-icon">
+<link rel="icon" href="/static/favicon.ico" type="image/x-icon">
+<!-- Scale viewport in resolution-independent way. -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+{{template "style"}}
+{{template "fonts"}}
+</style>
+</head>
+<body>
+{{template "base_header" .}}
+{{template "main" .}}
+
+</body>
+</html>
+{{end}}
