@@ -1,4 +1,4 @@
-// Package hkjnweb is the personal website hkjn.me.
+// Package hkjnweb is the personal website http://www.hkjn.me / http://blog.hkjn.me.
 package hkjnweb
 
 import (
