@@ -35,23 +35,22 @@ file called <code>pages/autosite.tmpl</code>, with the following
 structure:</p>
 <pre>
 <code>&#123;&#123;define &quot;page_title&quot;&#125;&#125;
-Page title goes here
-&#123;&#123;define &quot;end&quot;&#125;&#125;.
+Page title goes here.
+&#123;&#123;define &quot;end&quot;&#125;&#125;
 
 &#123;&#123;define &quot;page_content&quot;&#125;&#125;
-Page contents (which can include any HTML) goes here
-&#123;&#123;define &quot;end&quot;&#125;&#125;.</code>
+Page contents (which can include any HTML) goes here.
+&#123;&#123;define &quot;end&quot;&#125;&#125;</code>
 </pre>
 
 <p>That's all &mdash; the staging version of my site now started
 serving <a href="http://[host]/autosite">http://[host]/autosite</a>,
 showing the output every time I saved the <code>.tmpl</code> in my
 editor and reloaded the page. Once the live version of my site was
-pushed, now started serving this page
+pushed, it now started serving this page
 at <a href="http://www.hkjn.me/autosite">http://www.hkjn.me/autosite</a>.</p>
 
 <h2><a href="#structure" id="structure">Structure</a></h2>
-
 <p>Backing up a bit, the reason a simple <code>.tmpl</code> file
 written in the syntax
 of <a href="http://golang.org/pkg/html/template/" target="_blank">Go's
@@ -123,7 +122,7 @@ minimalistic static pages like this, it works.</p>
 
 <p>This was not a complete example &mdash; CSS and some other less
 interesting bits was not included. However, the main parts that define
-the sites is all here. I also did not discuss the actual
+the sites are all here. I also did not discuss the actual
 implementation of autosite, as opposed to how it's used, but even
 taken together with the template hierarchy the entire thing is fairly
 compact:</p>
