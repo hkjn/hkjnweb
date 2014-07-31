@@ -35,12 +35,19 @@ var blog = autosite.NewBlog(
 	append(baseTemplates, "tmpl/blog_listing.tmpl"),
 )
 
+var redirects = map[string]string{
+	"/house": "https://docs.google.com/spreadsheets/d/1WYQErDsJMaicvA21lCrKN89KMV1wn2fZJYP1RCiozIk/edit#gid=0",
+}
+
 // init initializes the app.
 func init() {
 	if appengine.IsDevAppServer() {
 		blog.ChangeURI("/", "/blogindex")
 	} else {
 		web.ChangeURI("/webindex", "/")
+	}
+	for uri, newUri := range redirects {
+		web.AddRedirect(uri, newUri)
 	}
 
 	web.Register()
