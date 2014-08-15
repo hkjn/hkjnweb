@@ -37,10 +37,14 @@ var blog = autosite.NewBlog(
 
 var redirects = map[string]string{
 	"/house": "https://docs.google.com/spreadsheets/d/1WYQErDsJMaicvA21lCrKN89KMV1wn2fZJYP1RCiozIk/edit#gid=0",
+	"/where": "http://computare0.appspot.com/where/me@hkjn.me",
 }
 
 // init initializes the app.
 func init() {
+	// TODO: when hkjn.me/foo is accessed, we can tell based on headers
+	// that the redirect came from there, and should further redirect
+	// www.hkjn.me to www.hkjn.me/foo.
 	if appengine.IsDevAppServer() {
 		blog.ChangeURI("/", "/blogindex")
 	} else {
