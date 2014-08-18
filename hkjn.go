@@ -42,7 +42,7 @@ var redirects = map[string]string{
 
 // init initializes the app.
 func init() {
-	// TODO: when hkjn.me/foo is accessed, we can tell based on headers
+	// TODO: when hkjn.me/foo is accessed, we could tell based on headers
 	// that the redirect came from there, and should further redirect
 	// www.hkjn.me to www.hkjn.me/foo.
 	if appengine.IsDevAppServer() {
