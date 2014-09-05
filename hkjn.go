@@ -7,6 +7,7 @@ package hkjnweb
 
 import (
 	"appengine"
+	"net/http"
 
 	"github.com/hkjn/autosite"
 )
@@ -20,11 +21,18 @@ var baseTemplates = []string{
 	"tmpl/js.tmpl",
 }
 
+// aeLogger returns a pages.Logger from a request.
+func aeLogger(r *http.Request) autosite.Logger {
+	return appengine.NewContext(r)
+}
+
 var web = autosite.New(
 	"Henrik Jonsson",
 	"pages/*.tmpl", // glob for pages
 	"www.hkjn.me",  // live domain
 	append(baseTemplates, "tmpl/page.tmpl"),
+	aeLogger,
+	!appengine.IsDevAppServer(),
 )
 
 var blog = autosite.NewBlog(
@@ -33,6 +41,8 @@ var blog = autosite.NewBlog(
 	"blog.hkjn.me",    // live domain
 	append(baseTemplates, "tmpl/blog.tmpl"),
 	append(baseTemplates, "tmpl/blog_listing.tmpl"),
+	aeLogger,
+	!appengine.IsDevAppServer(),
 )
 
 var redirects = map[string]string{
