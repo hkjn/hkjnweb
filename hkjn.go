@@ -6,8 +6,9 @@
 package hkjnweb
 
 import (
-	"appengine"
 	"net/http"
+
+	"appengine"
 
 	"github.com/hkjn/autosite"
 )
@@ -46,8 +47,6 @@ var blog = autosite.NewBlog(
 )
 
 var redirects = map[string]string{
-	"/house": "https://docs.google.com/spreadsheets/d/1WYQErDsJMaicvA21lCrKN89KMV1wn2fZJYP1RCiozIk",
-	"/car":   "https://docs.google.com/spreadsheets/d/1Dn-2xGAtNVJ_yWW_qeYU5wMzItAOM3NeYROyWpu4zLs",
 	"/where": "http://computare0.appspot.com/where/me@hkjn.me",
 }
 
