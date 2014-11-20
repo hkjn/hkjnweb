@@ -102,8 +102,14 @@ func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 		c.Debugf("got go-get param, assuming it's `go get` and pointing it to %s\n", repoRoot)
 		fmt.Fprintf(w, `<meta name="go-import" content="%s git %s">\n`, importPrefix, repoRoot)
 	} else {
-		nextURL := fmt.Sprintf("https://godoc.org/hkjn.me/%s", r.URL.Path)
-		c.Debugf("regular visitor to naked domain, assuming they're here for go packages and redirecting to %s..\n", nextURL)
+		nextURL := ""
+		if r.URL.Path == "/" {
+			nextURL = fmt.Sprintf("http://%s", webDomain)
+			c.Debugf("regular visitor to naked domain, assuming they're here for www and redirecting to %s..\n", nextURL)
+		} else {
+			nextURL = fmt.Sprintf("https://godoc.org/hkjn.me/%s", r.URL.Path)
+			c.Debugf("regular visitor to naked domain, assuming they're here for go packages and redirecting to %s..\n", nextURL)
+		}
 		http.Redirect(w, r, nextURL, http.StatusSeeOther)
 	}
 }
