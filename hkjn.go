@@ -92,6 +92,9 @@ func init() {
 	blog.Register()
 }
 
+// nakedIndexHandler serves hkjn.me/[package], supplying the <meta>
+// tag for the `go get` tool to allow `import hkjn.me/[package]`, and
+// redirecting to godoc.org if the `go-get` param is missing.
 func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	c.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
