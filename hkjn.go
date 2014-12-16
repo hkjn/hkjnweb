@@ -8,6 +8,7 @@ package hkjnweb
 import (
 	"fmt"
 	"net/http"
+	"strings"
 
 	"appengine"
 
@@ -56,6 +57,10 @@ var (
 		live,
 		tmplFuncs(blogDomain),
 	)
+	goImportTmpl = `<head>
+    <meta http-equiv="refresh" content="0; URL='%s'">
+    <meta name="go-import" content="%s git %s">
+  </head>`
 
 	redirects = map[string]string{
 		"/where": "http://computare0.appspot.com/where/me@hkjn.me",
@@ -98,21 +103,14 @@ func init() {
 func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	c.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
-	q := r.URL.Query()
-	if q.Get("go-get") != "" {
-		repoRoot := fmt.Sprintf("https://github.com/hkjn%s", r.URL.Path)
-		importPrefix := fmt.Sprintf("hkjn.me%s", r.URL.Path)
-		c.Debugf("got go-get param, assuming it's `go get` and pointing it to %s\n", repoRoot)
-		fmt.Fprintf(w, `<meta name="go-import" content="%s git %s">\n`, importPrefix, repoRoot)
+	if r.URL.Path == "/" {
+		c.Debugf("regular visitor to naked domain, assuming they're here for www and redirecting to /..\n")
+		http.Redirect(w, r, fmt.Sprintf("http://%s", webDomain), http.StatusSeeOther)
 	} else {
-		nextURL := ""
-		if r.URL.Path == "/" {
-			nextURL = fmt.Sprintf("http://%s", webDomain)
-			c.Debugf("regular visitor to naked domain, assuming they're here for www and redirecting to %s..\n", nextURL)
-		} else {
-			nextURL = fmt.Sprintf("https://godoc.org/hkjn.me/%s", r.URL.Path)
-			c.Debugf("regular visitor to naked domain, assuming they're here for go packages and redirecting to %s..\n", nextURL)
-		}
-		http.Redirect(w, r, nextURL, http.StatusSeeOther)
+		parts := strings.Split(r.URL.Path, "/")
+		godocUrl := fmt.Sprintf("https://godoc.org/hkjn.me%s", r.URL.Path)
+		repoRoot := fmt.Sprintf("https://github.com/hkjn/%s", parts[1])
+		importPrefix := fmt.Sprintf("hkjn.me%s", r.URL.Path)
+		fmt.Fprintf(w, goImportTmpl, godocUrl, importPrefix, repoRoot)
 	}
 }
