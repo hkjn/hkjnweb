@@ -110,7 +110,7 @@ func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 		parts := strings.Split(r.URL.Path, "/")
 		godocUrl := fmt.Sprintf("https://godoc.org/hkjn.me%s", r.URL.Path)
 		repoRoot := fmt.Sprintf("https://github.com/hkjn/%s", parts[1])
-		importPrefix := fmt.Sprintf("hkjn.me%s", r.URL.Path)
+		importPrefix := fmt.Sprintf("hkjn.me/%s", parts[1])
 		fmt.Fprintf(w, goImportTmpl, godocUrl, importPrefix, repoRoot)
 	}
 }
