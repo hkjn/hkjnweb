@@ -98,9 +98,7 @@ func init() {
 	blog.Register()
 }
 
-// nakedIndexHandler serves hkjn.me/[package], supplying the <meta>
-// tag for the `go get` tool to allow `import hkjn.me/[package]`, and
-// redirecting to godoc.org if the `go-get` param is missing.
+// nakedIndexHandler serves requests to hkjn.me/
 func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 	c := appengine.NewContext(r)
 	c.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
@@ -108,6 +106,8 @@ func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 		c.Debugf("regular visitor to naked domain, assuming they're here for www and redirecting to /..\n")
 		http.Redirect(w, r, fmt.Sprintf("http://%s", webDomain), http.StatusSeeOther)
 	} else {
+		// Our response tells the `go get` tool where to find
+		// `hkjn.me/[package]`.
 		parts := strings.Split(r.URL.Path, "/")
 		godocUrl := fmt.Sprintf("https://godoc.org/hkjn.me%s", r.URL.Path)
 		repoRoot := fmt.Sprintf("https://github.com/hkjn/%s", parts[1])
