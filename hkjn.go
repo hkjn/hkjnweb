@@ -61,7 +61,7 @@ func Register() {
 	web.ChangeURI("/webindex", "/")
 	if IsProd {
 		log.Println("We're in prod, remapping some paths\n")
-		http.HandleFunc("hkjn.me/", nakedIndexHandler)
+		http.HandleFunc("https://hkjn.me/", nakedIndexHandler)
 		http.HandleFunc("www.hkjn.me/keybase.txt", keybaseHandler)
 	} else {
 		log.Println("We're not in prod, remapping some paths\n")
