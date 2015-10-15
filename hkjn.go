@@ -84,11 +84,14 @@ func Register() {
 	web.Register()
 	blog.Register()
 
+	log := getLogger(r)
 	if IsProd {
+		log.Infoln("We're in prod, remapping some paths\n")
 		web.ChangeURI("/webindex", "/")
 		http.HandleFunc("hkjn.me/", nakedIndexHandler)
 		http.HandleFunc("www.hkjn.me/keybase.txt", keybaseHandler)
 	} else {
+		log.Infoln("We're not in prod, remapping some paths\n")
 		blog.ChangeURI("/", "/blogindex")
 		http.HandleFunc("/nakedindex", nakedIndexHandler)
 	}

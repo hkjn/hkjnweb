@@ -30,9 +30,6 @@ func main() {
 
 	hkjnweb.Register()
 	hkjnweb.IsProd = os.Getenv("PROD") != ""
-	if hkjnweb.IsProd {
-		log.Println("Since PROD is set, we're serving the prod site")
-	}
 	//	hkjnweb.Logger = autosite.Glogger{}
 	registerStatic(os.Getenv("STATIC_DIR"))
 
