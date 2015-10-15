@@ -1,5 +1,4 @@
-// Package hkjnweb is the personal websites http://www.hkjn.me /
-// http://blog.hkjn.me.
+// Package hkjnweb is the personal website hkjn.me.
 //
 // See https://github.com/hkjn/autosite for the framework that enables
 // this site.
@@ -35,9 +34,8 @@ func getLogger(r *http.Request) autosite.Logger {
 }
 
 var (
-	webDomain  = "www.hkjn.me"
-	blogDomain = "blog.hkjn.me"
-	web        = autosite.New(
+	webDomain = "www.hkjn.me"
+	web       = autosite.New(
 		"Henrik Jonsson",
 		"pages/*.tmpl", // glob for pages
 		webDomain,      // live domain
@@ -47,16 +45,6 @@ var (
 		tmplFuncs(webDomain),
 	)
 
-	blog = autosite.NewBlog(
-		"Henrik Jonsson's blog",
-		"blog/*/*/*.tmpl", // glob for blog entries
-		blogDomain,        // live domain
-		append(baseTemplates, "tmpl/blog.tmpl"),
-		append(baseTemplates, "tmpl/blog_listing.tmpl"),
-		getLogger,
-		IsProd,
-		tmplFuncs(blogDomain),
-	)
 	goImportTmpl = `<head>
     <meta http-equiv="refresh" content="0; URL='%s'">
     <meta name="go-import" content="%s git %s">
@@ -82,22 +70,22 @@ func tmplFuncs(domain string) template.FuncMap {
 
 // Register registers the handlers.
 func Register() {
-	web.Register()
-	blog.Register()
-
+	// We remap /webindex (from pages/webindex.tmpl, no special-cases in
+	// the autosite package) to serve index.
+	web.ChangeURI("/webindex", "/")
 	if IsProd {
 		log.Println("We're in prod, remapping some paths\n")
-		web.ChangeURI("/webindex", "/")
 		http.HandleFunc("hkjn.me/", nakedIndexHandler)
 		http.HandleFunc("www.hkjn.me/keybase.txt", keybaseHandler)
 	} else {
 		log.Println("We're not in prod, remapping some paths\n")
-		blog.ChangeURI("/", "/blogindex")
 		http.HandleFunc("/nakedindex", nakedIndexHandler)
 	}
 	for uri, newUri := range redirects {
 		web.AddRedirect(uri, newUri)
 	}
+
+	web.Register()
 }
 
 // nakedIndexHandler serves requests to hkjn.me/
