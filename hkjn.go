@@ -7,6 +7,7 @@ package hkjnweb
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -84,14 +85,13 @@ func Register() {
 	web.Register()
 	blog.Register()
 
-	log := getLogger(r)
 	if IsProd {
-		log.Infoln("We're in prod, remapping some paths\n")
+		log.Println("We're in prod, remapping some paths\n")
 		web.ChangeURI("/webindex", "/")
 		http.HandleFunc("hkjn.me/", nakedIndexHandler)
 		http.HandleFunc("www.hkjn.me/keybase.txt", keybaseHandler)
 	} else {
-		log.Infoln("We're not in prod, remapping some paths\n")
+		log.Println("We're not in prod, remapping some paths\n")
 		blog.ChangeURI("/", "/blogindex")
 		http.HandleFunc("/nakedindex", nakedIndexHandler)
 	}
@@ -102,11 +102,11 @@ func Register() {
 
 // nakedIndexHandler serves requests to hkjn.me/
 func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
-	log := getLogger(r)
-	log.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
+	l := getLogger(r)
+	l.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
 	if r.URL.Path == "/" {
 		url := fmt.Sprintf("http://%s", webDomain)
-		log.Debugf("visitor to / of naked domain, redirecting to %q..\n")
+		l.Debugf("visitor to / of naked domain, redirecting to %q..\n")
 		http.Redirect(w, r, url, http.StatusSeeOther)
 	} else {
 		// Our response tells the `go get` tool where to find
@@ -193,7 +193,7 @@ View my publicly-auditable identity here: https://keybase.io/hkjn
 ==================================================================`
 
 func keybaseHandler(w http.ResponseWriter, r *http.Request) {
-	log := getLogger(r)
-	log.Infof("keybaseHandler for URI %s\n", r.RequestURI)
+	l := getLogger(r)
+	l.Infof("keybaseHandler for URI %s\n", r.RequestURI)
 	fmt.Fprintf(w, keybaseVerifyText)
 }
