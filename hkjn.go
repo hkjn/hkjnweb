@@ -79,8 +79,11 @@ func tmplFuncs(domain string) template.FuncMap {
 	}
 }
 
-// init initializes the app.
-func init() {
+// Register registers the handlers.
+func Register() {
+	web.Register()
+	blog.Register()
+
 	if IsProd {
 		web.ChangeURI("/webindex", "/")
 		http.HandleFunc("hkjn.me/", nakedIndexHandler)
@@ -92,13 +95,6 @@ func init() {
 	for uri, newUri := range redirects {
 		web.AddRedirect(uri, newUri)
 	}
-}
-
-// Register registers the handlers.
-func Register() {
-	web.Register()
-	blog.Register()
-
 }
 
 // nakedIndexHandler serves requests to hkjn.me/
