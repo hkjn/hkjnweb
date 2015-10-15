@@ -23,7 +23,7 @@ var (
 		"tmpl/fonts.tmpl",
 		"tmpl/js.tmpl",
 	}
-	IsProd = false
+	isProd = false
 	Logger = autosite.Glogger{}
 )
 
@@ -40,7 +40,7 @@ var (
 		webDomain,      // live domain
 		append(baseTemplates, "tmpl/page.tmpl"),
 		getLogger,
-		IsProd,
+		isProd,
 		template.FuncMap{},
 	)
 
@@ -55,7 +55,8 @@ var (
 )
 
 // Register registers the handlers.
-func Register() {
+func Register(prod bool) {
+	isProd = prod
 	// We remap /webindex (from pages/webindex.tmpl, no special-cases in
 	// the autosite package) to serve index.
 
@@ -63,10 +64,10 @@ func Register() {
 	// interfere with / and /keybase.txt handlers below.
 
 	// web.ChangeURI("/webindex", "/")
-	if IsProd {
+	http.HandleFunc("/keybase.txt", keybaseHandler)
+	if isProd {
 		log.Println("We're in prod, remapping some paths\n")
 		http.HandleFunc("/", nakedIndexHandler)
-		http.HandleFunc("/keybase.txt", keybaseHandler)
 	} else {
 		log.Println("We're not in prod, remapping some paths\n")
 		http.HandleFunc("/nakedindex", nakedIndexHandler)

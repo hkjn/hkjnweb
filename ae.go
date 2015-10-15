@@ -16,7 +16,6 @@ func GetAeLogger(r *http.Request) autosite.Logger {
 }
 
 func init() {
-	Live = !appengine.IsDevAppServer()
 	getLogger = GetAeLogger
-	Register()
+	Register(!appengine.IsDevAppServer())
 }

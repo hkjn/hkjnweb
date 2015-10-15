@@ -27,9 +27,7 @@ func registerStatic(dir string) {
 
 func main() {
 	flag.Parse()
-
-	hkjnweb.Register()
-	hkjnweb.IsProd = os.Getenv("PROD") != ""
+	hkjnweb.Register(os.Getenv("PROD") != "")
 	//	hkjnweb.Logger = autosite.Glogger{}
 	registerStatic(os.Getenv("STATIC_DIR"))
 
