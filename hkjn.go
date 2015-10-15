@@ -10,8 +10,6 @@ import (
 	"net/http"
 	"strings"
 
-	"appengine"
-
 	"html/template"
 
 	"hkjn.me/autosite"
@@ -26,12 +24,13 @@ var (
 		"tmpl/fonts.tmpl",
 		"tmpl/js.tmpl",
 	}
-	live = !appengine.IsDevAppServer()
+	IsProd = false
+	Logger = autosite.Glogger{}
 )
 
-// aeLogger returns a pages.Logger from a request.
-func aeLogger(r *http.Request) autosite.Logger {
-	return appengine.NewContext(r)
+// getLogger returns the autosite.Logger to use.
+func getLogger(r *http.Request) autosite.Logger {
+	return Logger
 }
 
 var (
@@ -42,8 +41,8 @@ var (
 		"pages/*.tmpl", // glob for pages
 		webDomain,      // live domain
 		append(baseTemplates, "tmpl/page.tmpl"),
-		aeLogger,
-		live,
+		getLogger,
+		IsProd,
 		tmplFuncs(webDomain),
 	)
 
@@ -53,8 +52,8 @@ var (
 		blogDomain,        // live domain
 		append(baseTemplates, "tmpl/blog.tmpl"),
 		append(baseTemplates, "tmpl/blog_listing.tmpl"),
-		aeLogger,
-		live,
+		getLogger,
+		IsProd,
 		tmplFuncs(blogDomain),
 	)
 	goImportTmpl = `<head>
@@ -70,9 +69,9 @@ var (
 // tmplFuncs returns extra template functions.
 func tmplFuncs(domain string) template.FuncMap {
 	return template.FuncMap{
-		"live": func() bool { return live },
+		"live": func() bool { return IsProd },
 		"domain": func() string {
-			if live {
+			if IsProd {
 				return domain
 			}
 			return ""
@@ -82,7 +81,7 @@ func tmplFuncs(domain string) template.FuncMap {
 
 // init initializes the app.
 func init() {
-	if live {
+	if IsProd {
 		web.ChangeURI("/webindex", "/")
 		http.HandleFunc("hkjn.me/", nakedIndexHandler)
 		http.HandleFunc("www.hkjn.me/keybase.txt", keybaseHandler)
@@ -93,18 +92,23 @@ func init() {
 	for uri, newUri := range redirects {
 		web.AddRedirect(uri, newUri)
 	}
+}
 
+// Register registers the handlers.
+func Register() {
 	web.Register()
 	blog.Register()
+
 }
 
 // nakedIndexHandler serves requests to hkjn.me/
 func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-	c.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
+	log := getLogger(r)
+	log.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
 	if r.URL.Path == "/" {
-		c.Debugf("regular visitor to naked domain, assuming they're here for www and redirecting to /..\n")
-		http.Redirect(w, r, fmt.Sprintf("http://%s", webDomain), http.StatusSeeOther)
+		url := fmt.Sprintf("http://%s", webDomain)
+		log.Debugf("visitor to / of naked domain, redirecting to %q..\n")
+		http.Redirect(w, r, url, http.StatusSeeOther)
 	} else {
 		// Our response tells the `go get` tool where to find
 		// `hkjn.me/[package]`.
@@ -190,7 +194,7 @@ View my publicly-auditable identity here: https://keybase.io/hkjn
 ==================================================================`
 
 func keybaseHandler(w http.ResponseWriter, r *http.Request) {
-	c := appengine.NewContext(r)
-	c.Infof("keybaseHandler for URI %s\n", r.RequestURI)
+	log := getLogger(r)
+	log.Infof("keybaseHandler for URI %s\n", r.RequestURI)
 	fmt.Fprintf(w, keybaseVerifyText)
 }
