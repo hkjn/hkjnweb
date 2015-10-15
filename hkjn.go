@@ -6,11 +6,10 @@ package hkjnweb
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"strings"
-
-	"html/template"
 
 	"hkjn.me/autosite"
 )
@@ -42,7 +41,7 @@ var (
 		append(baseTemplates, "tmpl/page.tmpl"),
 		getLogger,
 		IsProd,
-		tmplFuncs(webDomain),
+		template.FuncMap{},
 	)
 
 	goImportTmpl = `<head>
@@ -54,19 +53,6 @@ var (
 		"/where": "http://computare0.appspot.com/where/me@hkjn.me",
 	}
 )
-
-// tmplFuncs returns extra template functions.
-func tmplFuncs(domain string) template.FuncMap {
-	return template.FuncMap{
-		"live": func() bool { return IsProd },
-		"domain": func() string {
-			if IsProd {
-				return domain
-			}
-			return ""
-		},
-	}
-}
 
 // Register registers the handlers.
 func Register() {
