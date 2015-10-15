@@ -58,11 +58,15 @@ var (
 func Register() {
 	// We remap /webindex (from pages/webindex.tmpl, no special-cases in
 	// the autosite package) to serve index.
-	web.ChangeURI("/webindex", "/")
+
+	// TODO(henrik): Re-enable this once autosite package doesn't
+	// interfere with / and /keybase.txt handlers below.
+
+	// web.ChangeURI("/webindex", "/")
 	if IsProd {
 		log.Println("We're in prod, remapping some paths\n")
-		http.HandleFunc("https://hkjn.me/", nakedIndexHandler)
-		http.HandleFunc("www.hkjn.me/keybase.txt", keybaseHandler)
+		http.HandleFunc("/", nakedIndexHandler)
+		http.HandleFunc("/keybase.txt", keybaseHandler)
 	} else {
 		log.Println("We're not in prod, remapping some paths\n")
 		http.HandleFunc("/nakedindex", nakedIndexHandler)
