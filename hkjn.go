@@ -57,13 +57,6 @@ var (
 // Register registers the handlers.
 func Register(prod bool) {
 	isProd = prod
-	// We remap /webindex (from pages/webindex.tmpl, no special-cases in
-	// the autosite package) to serve index.
-
-	// TODO(henrik): Re-enable this once autosite package doesn't
-	// interfere with / and /keybase.txt handlers below.
-
-	// web.ChangeURI("/webindex", "/")
 	http.HandleFunc("/keybase.txt", keybaseHandler)
 	if isProd {
 		log.Println("We're in prod, remapping some paths\n")
@@ -84,7 +77,7 @@ func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 	l := getLogger(r)
 	l.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
 	if r.URL.Path == "/" {
-		url := "/webindex"
+		url := "/index"
 		l.Debugf("visitor to / of naked domain, redirecting to %q..\n")
 		http.Redirect(w, r, url, http.StatusFound)
 	} else {
