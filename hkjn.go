@@ -93,7 +93,7 @@ func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 	l := getLogger(r)
 	l.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
 	if r.URL.Path == "/" {
-		url := fmt.Sprintf("http://%s", webDomain)
+		url := fmt.Sprintf("https://%s", webDomain)
 		l.Debugf("visitor to / of naked domain, redirecting to %q..\n")
 		http.Redirect(w, r, url, http.StatusSeeOther)
 	} else {
