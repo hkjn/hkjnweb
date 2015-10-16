@@ -78,7 +78,7 @@ func nakedIndexHandler(w http.ResponseWriter, r *http.Request) {
 	l.Infof("nakedIndexHandler for URI %s\n", r.RequestURI)
 	if r.URL.Path == "/" {
 		url := "/index"
-		l.Debugf("visitor to / of naked domain, redirecting to %q..\n")
+		l.Debugf("visitor to / of naked domain, redirecting to %q..\n", url)
 		http.Redirect(w, r, url, http.StatusFound)
 	} else {
 		// Our response tells the `go get` tool where to find
