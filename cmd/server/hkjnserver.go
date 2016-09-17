@@ -15,6 +15,11 @@ import (
 	"hkjn.me/hkjnweb"
 )
 
+var hosts = []string{
+	"hkjn.me",
+	"www.hkjn.me",
+}
+
 // registerStatic registers handler for static files.
 func registerStatic(dir string) {
 	if dir == "" {
@@ -36,7 +41,6 @@ func main() {
 	if addr == "" {
 		addr = ":12345"
 	}
-	host := os.Getenv("HOST")
 	if os.Getenv("SERVE_HTTP") != "" {
 		log.Printf("webserver serving HTTP on %s..\n", addr)
 		err := http.ListenAndServe(addr, nil)
@@ -47,7 +51,7 @@ func main() {
 		log.Println("Since SERVE_HTTP isn't set, we should serve https")
 		m := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
-			HostPolicy: autocert.HostWhitelist(host),
+			HostPolicy: autocert.HostWhitelist(hosts...),
 		}
 		s := &http.Server{
 			Addr:      addr,

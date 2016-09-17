@@ -5,7 +5,6 @@
 set -euo pipefail
 
 export BIND_ADDR=:4430
-export HOST=hkjn.me
 export PROD=1
 echo "[run.sh] Fetching updates.."
 go get -u hkjn.me/hkjnweb/...
