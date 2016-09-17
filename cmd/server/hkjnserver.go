@@ -4,12 +4,14 @@
 package main
 
 import (
+	"crypto/tls"
 	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
+	"golang.org/x/crypto/acme/autocert"
 	"hkjn.me/hkjnweb"
 )
 
@@ -34,6 +36,7 @@ func main() {
 	if addr == "" {
 		addr = ":12345"
 	}
+	host := os.Getenv("HOST")
 	if os.Getenv("SERVE_HTTP") != "" {
 		log.Printf("webserver serving HTTP on %s..\n", addr)
 		err := http.ListenAndServe(addr, nil)
@@ -42,13 +45,16 @@ func main() {
 		}
 	} else {
 		log.Println("Since SERVE_HTTP isn't set, we should serve https")
-		certFile := os.Getenv("HTTPS_CERT_FILE")
-		keyFile := os.Getenv("HTTPS_KEY_FILE")
-		if certFile == "" || keyFile == "" {
-			log.Fatalln("FATAL: No HTTPS_CERT_FILE or HTTPS_KEY_FILE specified.")
+		m := autocert.Manager{
+			Prompt:     autocert.AcceptTOS,
+			HostPolicy: autocert.HostWhitelist(host),
+		}
+		s := &http.Server{
+			Addr:      addr,
+			TLSConfig: &tls.Config{GetCertificate: m.GetCertificate},
 		}
 		log.Printf("webserver serving HTTPS on %s..\n", addr)
-		err := http.ListenAndServeTLS(addr, certFile, keyFile, nil)
+		err := s.ListenAndServeTLS("", "")
 		if err != nil {
 			log.Fatalf("FATAL: https server exited: %v\n", err)
 		}

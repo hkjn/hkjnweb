@@ -4,9 +4,8 @@
 #
 set -euo pipefail
 
-export HTTPS_CERT_FILE=/etc/ssl/private/hkjn.me.crt
-export HTTPS_KEY_FILE=/etc/ssl/private/hkjn.me.key
 export BIND_ADDR=:4430
+export HOST=hkjn.me
 export PROD=1
 echo "[run.sh] Fetching updates.."
 go get -u hkjn.me/hkjnweb/...
