@@ -1,0 +1,27 @@
+#
+# This is a systemd service for hkjnweb, which should be copied
+# to /lib/systemd/system/ to run the hkjnweb service under systemd.
+#
+# After that, we can use systemctl commands like
+# "systemctl status hkjnweb" and "systemctl start hkjnweb" to interact
+# with systemd.
+#
+[Unit]
+Description=hkjn.me website
+After=network-online.target
+
+[Service]
+ExecStartPre=-/usr/bin/docker stop hkjnweb
+ExecStartPre=-/usr/bin/docker rm hkjnweb
+ExecStart=/bin/bash -c " \
+  docker run \
+    --name hkjnweb \
+    -p 443:4430 \
+    -p 80:8080 \
+    -v /etc/ssl:/etc/ssl:ro \
+  hkjn/hkjnweb:$(uname -m)"
+Restart=always
+
+[Install]
+WantedBy=network-online.target
+

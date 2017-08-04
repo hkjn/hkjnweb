@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+
+declare DOCKER_USER="hkjn"
+declare DOCKER_IMAGE="hkjnweb"
+declare CPU_ARCH="$(uname -m)"
+declare BASEIMAGE="hkjn/golang:${CPU_ARCH}"
+declare BUILD_DIR="$(mktemp -d)"
+declare TAG="${DOCKER_USER}/${DOCKER_IMAGE}:${CPU_ARCH}"
+
+sed "s|{{ARG_FROM}}|${BASEIMAGE}|g" Dockerfile.in > $BUILD_DIR/Dockerfile
+cp -r *.go blog cmd pages static tmpl vendor "${BUILD_DIR}/"
+
+echo "Building '${TAG}' in '${BUILD_DIR}'.."
+docker build -t ${TAG} "${BUILD_DIR}/"
+NO_PUSH=${NO_PUSH:-""}
+[[ "$NO_PUSH" ]] || docker push $TAG

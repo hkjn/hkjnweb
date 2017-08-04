@@ -59,10 +59,10 @@ func Register(prod bool) {
 	isProd = prod
 	http.HandleFunc("/keybase.txt", keybaseHandler)
 	if isProd {
-		log.Println("We're in prod, remapping some paths\n")
+		log.Println("We're in prod, remapping some paths")
 		http.HandleFunc("/", nakedIndexHandler)
 	} else {
-		log.Println("We're not in prod, remapping some paths\n")
+		log.Println("We're not in prod, remapping some paths")
 		http.HandleFunc("/nakedindex", nakedIndexHandler)
 	}
 	for uri, newUri := range redirects {
