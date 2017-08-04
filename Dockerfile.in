@@ -12,7 +12,7 @@ USER go
 COPY ["*.go", "./"]
 COPY ["blog/", "./blog/"]
 COPY ["cmd/", "./cmd/"]
-COPY ["pages/", "./tmpl/"]
+COPY ["pages/", "./pages/"]
 COPY ["static/", "./static/"]
 COPY ["tmpl/", "./tmpl/"]
 COPY ["vendor", "./vendor/"]
