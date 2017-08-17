@@ -1,17 +1,19 @@
 #!/bin/bash
 set -euo pipefail
 
-declare DOCKER_USER="hkjn"
-declare DOCKER_IMAGE="hkjnweb"
-declare CPU_ARCH="$(uname -m)"
-declare BASEIMAGE="hkjn/golang:${CPU_ARCH}"
+declare BASEIMAGE="hkjn/golang:$(uname -m)-tip"
 declare BUILD_DIR="$(mktemp -d)"
-declare TAG="${DOCKER_USER}/${DOCKER_IMAGE}:${CPU_ARCH}"
+declare BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd ${BASE}
 
-sed "s|{{ARG_FROM}}|${BASEIMAGE}|g" Dockerfile.in > $BUILD_DIR/Dockerfile
-cp -r *.go blog cmd pages static tmpl vendor "${BUILD_DIR}/"
+sed "s|{{ARG_FROM}}|${BASEIMAGE}|g" Dockerfile.build > ${BUILD_DIR}/Dockerfile
+cp -r *.go blog cmd pages static tmpl redirector vendor ${BUILD_DIR}
 
-echo "Building '${TAG}' in '${BUILD_DIR}'.."
-docker build -t ${TAG} "${BUILD_DIR}/"
-NO_PUSH=${NO_PUSH:-""}
-[[ "$NO_PUSH" ]] || docker push $TAG
+echo "Building in '${BUILD_DIR}'.."
+docker build -t hkjnweb-build ${BUILD_DIR}
+rm -rf bin/
+docker run --name hkjnweb-build hkjnweb-build
+docker cp hkjnweb-build:/home/go/bin/ .
+docker rm hkjnweb-build
+mv -v bin/* .
+

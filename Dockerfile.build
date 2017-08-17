@@ -1,0 +1,28 @@
+FROM {{ARG_FROM}}
+
+ENV CGO_ENABLED=0 \
+    GOOS=linux
+
+WORKDIR /home/go/src/hkjn.me/hkjnweb
+
+USER root
+RUN apk add --no-cache musl-dev
+USER go
+
+COPY ["*.go", "./"]
+COPY ["blog/", "./blog/"]
+COPY ["cmd/", "./cmd/"]
+COPY ["pages/", "./pages/"]
+COPY ["redirector/", "./redirector/"]
+COPY ["static/", "./static/"]
+COPY ["tmpl/", "./tmpl/"]
+COPY ["vendor", "./vendor/"]
+
+RUN go test && \
+    go vet && \
+    sh -c "GOARCH=amd64 go build -o ~/bin/hkjnweb_x86_64 ./" && \
+    sh -c "GOARCH=amd64 go build -o ~/bin/hkjnweb_redirector_x86_64 ./redirector/" && \
+    sh -c "GOARCH=arm go build -o ~/bin/hkjnweb_armv7l ./" && \
+    sh -c "GOARCH=arm go build -o ~/bin/hkjnweb_redirector_armv7l ./redirector/"
+WORKDIR /home/go/bin
+CMD echo "Binaries available in $(pwd): $(ls hkjnweb_*)"
