@@ -20,9 +20,12 @@ COPY ["vendor", "./vendor/"]
 
 RUN go test && \
     go vet && \
-    sh -c "GOARCH=amd64 go build -o ~/bin/hkjnweb_x86_64 ./" && \
-    sh -c "GOARCH=amd64 go build -o ~/bin/hkjnweb_redirector_x86_64 ./redirector/" && \
-    sh -c "GOARCH=arm go build -o ~/bin/hkjnweb_armv7l ./" && \
-    sh -c "GOARCH=arm go build -o ~/bin/hkjnweb_redirector_armv7l ./redirector/"
+    mkdir /home/go/bin
 WORKDIR /home/go/bin
+
+RUN GOARCH=amd64 go build -o hkjnweb_x86_64 hkjn.me/hkjnweb/cmd/server && \
+    GOARCH=amd64 go build -o hkjnweb_redirector_x86_64 hkjn.me/hkjnweb/redirector && \
+    GOARCH=arm go build -o hkjnweb_armv7l hkjn.me/hkjnweb/cmd/server && \
+    GOARCH=arm go build -o hkjnweb_redirector_armv7l hkjn.me/hkjnweb/redirector
+
 CMD echo "Binaries available in $(pwd): $(ls hkjnweb_*)"
