@@ -51,6 +51,7 @@ func main() {
 		log.Println("Since SERVE_HTTP isn't set, we should serve https")
 		m := autocert.Manager{
 			Prompt:     autocert.AcceptTOS,
+			Cache:      autocert.DirCache("/etc/ssl/hkjn.me"),
 			HostPolicy: autocert.HostWhitelist(hosts...),
 		}
 		s := &http.Server{
