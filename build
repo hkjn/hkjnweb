@@ -17,5 +17,5 @@ docker cp hkjnweb-build:/home/go/bin/ .
 docker rm hkjnweb-build
 mv -v bin/* .
 echo "Installing binaries to /usr/local/bin .."
-sudo install hkjnweb_$(uname -m) /usr/local/bin/hkjnweb
-sudo install hkjnweb_redirector_$(uname -m) /usr/local/bin/hkjnweb_redirector
+sudo install hkjnweb_$(uname -m) /opt/bin/hkjnweb
+sudo install hkjnweb_redirector_$(uname -m) /opt/bin/hkjnweb_redirector
