@@ -4,7 +4,7 @@ After=network-online.target
 
 [Service]
 Environment=PATH=/usr/bin/:/opt/bin:/bin
-ExecStart=/usr/bin/bash -c "hkjnweb_redirector"
+ExecStart=/bin/bash -c "hkjnweb_redirector"
 Restart=always
 
 [Install]
