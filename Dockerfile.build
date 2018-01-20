@@ -10,7 +10,6 @@ RUN apk add --no-cache musl-dev
 USER go
 
 COPY ["*.go", "./"]
-COPY ["blog/", "./blog/"]
 COPY ["cmd/", "./cmd/"]
 COPY ["pages/", "./pages/"]
 COPY ["redirector/", "./redirector/"]
