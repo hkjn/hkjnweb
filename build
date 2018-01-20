@@ -7,7 +7,7 @@ declare BASE="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd ${BASE}
 
 sed "s|{{ARG_FROM}}|${BASEIMAGE}|g" Dockerfile.build > ${BUILD_DIR}/Dockerfile
-cp -r *.go blog cmd pages static tmpl redirector vendor ${BUILD_DIR}
+cp -r *.go cmd pages static tmpl redirector vendor ${BUILD_DIR}
 
 echo "Building in '${BUILD_DIR}'.."
 docker build -t hkjnweb-build ${BUILD_DIR}
