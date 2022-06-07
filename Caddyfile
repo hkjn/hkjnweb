@@ -7,5 +7,5 @@ talks.hkjn.me {
 www.hkjn.me, hkjn.me {
   push
   log    /var/log/hkjn.me.access.log
-  proxy  / 127.0.0.1:8888
+  proxy  / 127.0.0.1:8889
 }
