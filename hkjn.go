@@ -35,7 +35,7 @@ func getLogger(r *http.Request) autosite.Logger {
 var (
 	webDomain = "www.hkjn.me"
 	web       = autosite.New(
-		"Henrik Jonsson",
+		"Lairs (Henrik) Johnstone",
 		"pages/*.tmpl", // glob for pages
 		webDomain,      // live domain
 		append(baseTemplates, "tmpl/page.tmpl"),
