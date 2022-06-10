@@ -1,6 +1,4 @@
-// +build !appengine
-
-// main.go holds bits needed when not serving hkjnweb on appengine.
+// Main server entrypoint
 package main
 
 import (
