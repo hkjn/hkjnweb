@@ -1,6 +1,10 @@
 github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b h1:VKtxabqXZkF25pY9ekfRL6a582T4P37/31XEstQ5p58=
 github.com/golang/glog v0.0.0-20160126235308-23def4e6c14b/go.mod h1:SBH7ygxi8pfUlaOkMMuAQtPIUF8ecWP5IEl/CR7VP2Q=
-golang.org/x/crypto v0.0.0-20170803203146-c412588e259e h1:Mi98P+YCIdfLejQ2v0mJX30MZOi2Ga/G1Ldw8zpS4b8=
-golang.org/x/crypto v0.0.0-20170803203146-c412588e259e/go.mod h1:6SG95UA2DQfeDnfUPMdvaQW0Q7yPrPDi9nlGo2tz2b4=
+golang.org/x/crypto v0.6.0 h1:qfktjS5LUO+fFKeJXZ+ikTRijMmljikvG68fpMMruSc=
+golang.org/x/crypto v0.6.0/go.mod h1:OFC/31mSvZgRz0V1QTNCzfAI1aIRzbiufJtkMIlEp58=
+golang.org/x/net v0.6.0 h1:L4ZwwTvKW9gr0ZMS1yrHD9GZhIuVjOBBnaKH+SPQK0Q=
+golang.org/x/net v0.6.0/go.mod h1:2Tu9+aMcznHK/AK1HMvgo6xiTLG5rD5rZLDS+rp2Bjs=
+golang.org/x/text v0.7.0 h1:4BRB4x83lYWy72KwLD/qYDuTu7q9PjSagHvijDw7cLo=
+golang.org/x/text v0.7.0/go.mod h1:mrYo+phRRbMaCq/xk9113O4dZlRixOauAjOtrjsXDZ8=
 hkjn.me/autosite v0.0.0-20160410190153-cff07763b68b h1:2BWEKzlgRczClGBX7DL0FyUhXg43E40jihYkBssxKXM=
 hkjn.me/autosite v0.0.0-20160410190153-cff07763b68b/go.mod h1:+Sy3DHnCmHIQb1M6tklAH/BYE2cm+/4YP0yQcKdxXzw=
